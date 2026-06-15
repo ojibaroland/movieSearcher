@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eternal Craft — Bespoke Coffin Artisans</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:         #07070a;
+      --surface:    #101014;
+      --surface2:   #18181e;
+      --border:     #222228;
+      --gold:       #c8a96e;
+      --gold-light: #dfc07a;
+      --gold-dim:   #7a6438;
+      --white:      #f5f0eb;
+      --text:       #e2ddd5;
+      --text2:      #9a9490;
+      --text3:      #585450;
+      --serif:      'Cormorant Garamond', Georgia, serif;
+      --sans:       'Inter', system-ui, sans-serif;
+      --ease:       cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection { background: rgba(200,169,110,0.25); color: var(--white); }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+    /* ── Loader ── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      transition: opacity 0.9s var(--ease), visibility 0.9s;
+    }
+    #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .loader-logo {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.45em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .loader-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-top: -1rem;
+    }
+    .loader-track {
+      width: 220px;
+      height: 1px;
+      background: var(--border);
+      position: relative;
+    }
+    .loader-fill {
+      height: 100%;
+      background: var(--gold);
+      width: 0%;
+      transition: width 0.08s linear;
+    }
+    .loader-pct {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--text3);
+      font-weight: 400;
+    }
+
+    /* ── Nav ── */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 1.8rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.5s, backdrop-filter 0.5s, border-color 0.5s;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.solid {
+      background: rgba(7,7,10,0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-color: var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: var(--white);
+      text-decoration: none;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .nav-gem {
+      width: 5px; height: 5px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 2.8rem;
+    }
+    .nav-links a {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text2);
+      text-decoration: none;
+      font-weight: 400;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.35s var(--ease);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-enquire {
+      font-size: 0.65rem !important;
+      color: var(--gold) !important;
+      border: 1px solid var(--gold-dim);
+      padding: 0.55rem 1.3rem;
+      transition: background 0.3s, color 0.3s, border-color 0.3s !important;
+    }
+    .nav-enquire:hover { background: var(--gold) !important; color: var(--bg) !important; border-color: var(--gold) !important; }
+    .nav-enquire::after { display: none !important; }
+
+    /* ── Video Scroll Section ── */
+    #scroll-wrap {
+      position: relative;
+      /* height injected by JS */
+      height: 600vh;
+    }
+    #sticky-view {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Gradient vignette */
+    #sticky-view::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(7,7,10,0.55) 0%,
+          rgba(7,7,10,0.05) 25%,
+          rgba(7,7,10,0.05) 65%,
+          rgba(7,7,10,0.80) 100%
+        );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Scroll progress line */
+    #scroll-line {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--gold-dim), var(--gold));
+      width: 0%;
+      z-index: 4;
+      transition: width 0.05s linear;
+    }
+
+    /* Text phases */
+    .phase {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity;
+    }
+
+    .phase-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
+    .phase-rule {
+      width: 50px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 0 auto 2rem;
+    }
+    .phase-h {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 8vw, 8rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+    }
+    .phase-h em { font-style: italic; color: var(--gold-light); }
+    .phase-sub {
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      color: rgba(226,221,213,0.65);
+      margin-top: 1.6rem;
+      max-width: 460px;
+      line-height: 1.75;
+    }
+
+    /* Phase 4 — bottom aligned */
+    #ph4 {
+      justify-content: flex-end;
+      padding-bottom: 12vh;
+    }
+
+    /* Scroll hint */
+    #scroll-hint {
+      position: absolute;
+      bottom: 3.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      transition: opacity 0.5s;
+    }
+    .hint-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text3);
+    }
+    .hint-line {
+      width: 1px;
+      height: 44px;
+      background: linear-gradient(to bottom, transparent, var(--gold));
+      animation: drip 1.8s ease-in-out infinite;
+    }
+    @keyframes drip {
+      0%, 100% { opacity: 0; transform: scaleY(0.3) translateY(-10px); }
+      50%       { opacity: 1; transform: scaleY(1)   translateY(0); }
+    }
+
+    /* ── Marquee Band ── */
+    .marquee-band {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 1rem 0;
+      user-select: none;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: scroll-x 28s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 0 2.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text3);
+      font-weight: 400;
+      white-space: nowrap;
+    }
+    .marquee-diamond {
+      width: 4px; height: 4px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    @keyframes scroll-x {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── Shared Section Styles ── */
+    .eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    .divider {
+      width: 50px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 1.8rem auto;
+    }
+    .sec-title {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 4.5vw, 5rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+    }
+    .sec-title em { font-style: italic; color: var(--gold-light); }
+    .sec-body {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--text2);
+    }
+
+    /* ── Store Intro ── */
+    .store-intro {
+      text-align: center;
+      padding: 9rem 2rem 5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ── Products ── */
+    .products-wrap {
+      padding: 1rem 2px 0;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .p-card {
+      background: var(--surface);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .p-img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Wood-tone gradient per card */
+    .p-card:nth-child(1) .p-img { background: linear-gradient(150deg, #1c1408 0%, #2e2010 60%, #1a1408 100%); }
+    .p-card:nth-child(2) .p-img { background: linear-gradient(150deg, #0d1710 0%, #14251a 60%, #0d1710 100%); }
+    .p-card:nth-child(3) .p-img { background: linear-gradient(150deg, #1a1008 0%, #2a1a0c 60%, #1c1208 100%); }
+    .p-card:nth-child(4) .p-img { background: linear-gradient(150deg, #12101a 0%, #1e1828 60%, #14101c 100%); }
+    .p-card:nth-child(5) .p-img { background: linear-gradient(150deg, #0e1510 0%, #172014 60%, #0e1510 100%); }
+    .p-card:nth-child(6) .p-img { background: linear-gradient(150deg, #1a0e0e 0%, #2c1410 60%, #1a0e0a 100%); }
+
+    /* Grain lines */
+    .p-img::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.12;
+      background-image:
+        repeating-linear-gradient(88deg,
+          transparent, transparent 3px,
+          rgba(255,255,255,0.04) 3px, rgba(255,255,255,0.04) 6px
+        );
+    }
+
+    /* Coffin silhouette */
+    .p-img::after {
+      content: '';
+      position: absolute;
+      left: 50%; top: 52%;
+      transform: translate(-50%, -50%);
+      width: 52%;
+      height: 70%;
+      border: 1px solid rgba(200,169,110,0.14);
+      clip-path: polygon(22% 0%, 78% 0%, 100% 14%, 100% 86%, 78% 100%, 22% 100%, 0% 86%, 0% 14%);
+    }
+
+    .p-hover {
+      position: absolute;
+      inset: 0;
+      background: rgba(7,7,10,0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.4s;
+    }
+    .p-card:hover .p-hover { background: rgba(7,7,10,0.45); }
+    a.p-hover { display: block; text-decoration: none; }
+
+    .p-view {
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.45);
+      padding: 0.7rem 1.4rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .p-card:hover .p-view { opacity: 1; transform: translateY(0); }
+
+    .p-info {
+      padding: 1.75rem 1.75rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .p-material {
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .p-name {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.2;
+    }
+    .p-desc {
+      font-size: 0.78rem;
+      color: var(--text3);
+      margin-top: 0.5rem;
+      line-height: 1.65;
+    }
+    .p-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.25rem;
+    }
+    .p-price {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--white);
+      font-weight: 300;
+    }
+    .p-link {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid var(--gold-dim);
+      padding-bottom: 2px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .p-link:hover { color: var(--gold-light); border-color: var(--gold-light); }
+
+    /* ── Craft Section ── */
+    .craft-section {
+      padding: 9rem 4rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-top: 6rem;
+    }
+    .craft-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8rem;
+      align-items: center;
+    }
+    .craft-num {
+      font-family: var(--serif);
+      font-size: 9rem;
+      color: var(--border);
+      line-height: 1;
+      font-weight: 300;
+      margin-bottom: -1.5rem;
+      user-select: none;
+    }
+    .craft-body { margin-top: 1.5rem; }
+    .craft-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+    }
+    .stat-n {
+      font-family: var(--serif);
+      font-size: 3rem;
+      color: var(--gold);
+      font-weight: 300;
+      line-height: 1;
+    }
+    .stat-l {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-top: 0.35rem;
+    }
+
+    .craft-visual {
+      position: relative;
+    }
+    .craft-box {
+      aspect-ratio: 3 / 4;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .craft-box-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(155deg, #1a1208 0%, #2d2010 45%, #1a1610 100%);
+    }
+    .craft-box-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.1;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(200,169,110,0.06) 8px, rgba(200,169,110,0.06) 9px),
+        repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(200,169,110,0.06) 8px, rgba(200,169,110,0.06) 9px);
+    }
+    .craft-box-glow {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60%;
+      background: radial-gradient(ellipse at 50% 100%, rgba(200,169,110,0.07) 0%, transparent 70%);
+    }
+    .craft-caption {
+      position: absolute;
+      bottom: 2rem; left: 2rem; right: 2rem;
+      border-left: 2px solid var(--gold-dim);
+      padding-left: 1rem;
+    }
+    .craft-caption-text {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      color: var(--white);
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .craft-caption-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    .craft-badge {
+      position: absolute;
+      top: -1.2rem;
+      right: -1.2rem;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.5rem;
+    }
+    .badge-n {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--bg);
+      line-height: 1;
+    }
+    .badge-t {
+      font-size: 0.45rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(7,7,10,0.7);
+      font-weight: 600;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    /* ── Materials ── */
+    .materials-section {
+      padding: 9rem 4rem;
+    }
+    .materials-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+    .mat-item {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--border);
+      transition: background 0.35s;
+    }
+    .mat-item:last-child { border-right: none; }
+    .mat-item:hover { background: var(--surface); }
+
+    .mat-icon {
+      width: 38px; height: 38px;
+      border: 1px solid var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .mat-icon-inner {
+      width: 14px; height: 14px;
+      background: var(--gold);
+      opacity: 0.55;
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+    .mat-name {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--white);
+      font-weight: 400;
+    }
+    .mat-desc {
+      font-size: 0.78rem;
+      color: var(--text3);
+      line-height: 1.7;
+      margin-top: 0.7rem;
+    }
+
+    /* ── Process Steps ── */
+    .process-section {
+      padding: 9rem 4rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .process-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 5rem;
+      border-left: 1px solid var(--border);
+    }
+    .step {
+      padding: 2.5rem 2.5rem 2.5rem 2rem;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .step-n {
+      font-family: var(--serif);
+      font-size: 5rem;
+      font-weight: 300;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+    .step-title {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      color: var(--white);
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+    .step-desc {
+      font-size: 0.8rem;
+      color: var(--text3);
+      line-height: 1.7;
+    }
+    .step-dot {
+      position: absolute;
+      top: 2.5rem;
+      right: 2rem;
+      width: 7px; height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    /* ── Testimonials ── */
+    .testi-section {
+      padding: 9rem 4rem;
+    }
+    .testi-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+    .testi-card {
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      position: relative;
+      transition: border-color 0.35s;
+    }
+    .testi-card:hover { border-color: var(--gold-dim); }
+
+    .testi-mark {
+      font-family: var(--serif);
+      font-size: 5rem;
+      color: var(--gold);
+      line-height: 0.6;
+      opacity: 0.5;
+      margin-bottom: 1.5rem;
+    }
+    .testi-text {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+    .testi-author {
+      margin-top: 1.75rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .testi-name {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      font-weight: 500;
+    }
+    .testi-rel {
+      font-size: 0.68rem;
+      color: var(--text3);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Custom CTA ── */
+    .cta-section {
+      padding: 11rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+    }
+    .cta-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(200,169,110,0.055) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-h {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5.5vw, 5.5rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+    }
+    .cta-h em { font-style: italic; color: var(--gold-light); }
+    .cta-p {
+      margin-top: 1.5rem;
+      font-size: 0.92rem;
+      color: var(--text2);
+      line-height: 1.85;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-btns {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .btn-gold {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--gold);
+      text-decoration: none;
+      padding: 1.1rem 2.8rem;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+    .btn-gold:hover { background: var(--gold-light); }
+    .btn-outline {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--gold);
+      text-decoration: none;
+      border: 1px solid var(--gold-dim);
+      padding: 1.1rem 2.8rem;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+    .btn-outline:hover { background: rgba(200,169,110,0.08); }
+
+    /* ── Footer ── */
+    footer {
+      background: #040407;
+      border-top: 1px solid var(--border);
+      padding: 6rem 4rem 3rem;
+    }
+    .foot-inner { max-width: 1400px; margin: 0 auto; }
+    .foot-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .foot-brand {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .foot-brand-sub {
+      font-size: 0.8rem;
+      color: var(--text3);
+      line-height: 1.8;
+      margin-top: 0.9rem;
+      max-width: 280px;
+    }
+    .foot-col-h {
+      font-size: 0.58rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    .foot-links { list-style: none; }
+    .foot-links li { margin-bottom: 0.7rem; }
+    .foot-links a {
+      font-size: 0.82rem;
+      color: var(--text3);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .foot-links a:hover { color: var(--white); }
+
+    .foot-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .foot-copy {
+      font-size: 0.72rem;
+      color: var(--text3);
+    }
+    .foot-copy span { color: var(--gold); }
+
+    /* ── Scroll Reveal ── */
+    .rv {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+    }
+    .rv-l {
+      opacity: 0;
+      transform: translateX(-36px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+    }
+    .rv-r {
+      opacity: 0;
+      transform: translateX(36px);
+      transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+    }
+    .rv.vis, .rv-l.vis, .rv-r.vis {
+      opacity: 1;
+      transform: translate(0);
+    }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+    .d4 { transition-delay: 0.4s; }
+    .d5 { transition-delay: 0.5s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .craft-inner { grid-template-columns: 1fr; gap: 4rem; }
+      .craft-visual { display: none; }
+      .materials-grid { grid-template-columns: repeat(2, 1fr); }
+      .materials-grid .mat-item:nth-child(2) { border-right: none; }
+      .process-steps { grid-template-columns: repeat(2, 1fr); }
+      .testi-grid { grid-template-columns: 1fr 1fr; }
+      .foot-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      #nav { padding: 1.4rem 1.5rem; }
+      .nav-links { gap: 1.4rem; }
+      .nav-links li:nth-child(1),
+      .nav-links li:nth-child(2),
+      .nav-links li:nth-child(3) { display: none; }
+      .products-grid { grid-template-columns: 1fr; }
+      .craft-section, .materials-section, .process-section,
+      .testi-section, .cta-section, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .materials-grid { grid-template-columns: 1fr; }
+      .mat-item { border-right: none !important; border-bottom: 1px solid var(--border); }
+      .process-steps { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .foot-top { grid-template-columns: 1fr; gap: 2.5rem; }
+      .cta-btns { flex-direction: column; align-items: stretch; }
+      .btn-gold, .btn-outline { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ LOADER ══ -->
+<div id="loader">
+  <div class="loader-logo">Eternal Craft</div>
+  <div class="loader-sub" id="ls">Preparing your experience</div>
+  <div class="loader-track"><div class="loader-fill" id="lf"></div></div>
+  <div class="loader-pct" id="lp">0%</div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <span class="nav-gem"></span>
+    Eternal Craft
+  </a>
+  <ul class="nav-links">
+    <li><a href="#store">Collection</a></li>
+    <li><a href="#craft">Craft</a></li>
+    <li><a href="#materials">Materials</a></li>
+    <li><a href="#custom" class="nav-enquire">Enquire</a></li>
+  </ul>
+</nav>
+
+<!-- ══ VIDEO SCROLL SECTION ══ -->
+<section id="scroll-wrap">
+  <div id="sticky-view">
+
+    <canvas id="hero-canvas"></canvas>
+
+    <div id="scroll-line"></div>
+
+    <!-- Phase 1 — intro -->
+    <div class="phase" id="ph1">
+      <div class="phase-tag">Est. 1987 &nbsp;·&nbsp; Master Craftsmen</div>
+      <div class="phase-rule"></div>
+      <h1 class="phase-h">Where <em>Art</em><br>Meets<br>Eternity</h1>
+      <p class="phase-sub">Bespoke coffins crafted with devotion, precision, and the finest materials on earth.</p>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase" id="ph2">
+      <div class="phase-tag">The Eternal Collection</div>
+      <div class="phase-rule"></div>
+      <h2 class="phase-h">Every<br><em>Detail</em><br>Matters</h2>
+      <p class="phase-sub">Hand-selected timber. Hand-cut joints. Finished by artisans who have devoted their lives to this craft.</p>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase" id="ph3">
+      <div class="phase-tag">Crafted With Purpose</div>
+      <div class="phase-rule"></div>
+      <h2 class="phase-h">A Final<br>Gift of<br><em>Love</em></h2>
+      <p class="phase-sub">Because the way we honour those we love reflects everything we believe about them.</p>
+    </div>
+
+    <!-- Phase 4 — bottom -->
+    <div class="phase" id="ph4">
+      <div class="phase-tag">Continue Below</div>
+      <div class="phase-rule"></div>
+      <h2 class="phase-h"><em>Discover</em><br>Our Work</h2>
+    </div>
+
+    <!-- Scroll hint -->
+    <div id="scroll-hint">
+      <div class="hint-line"></div>
+      <div class="hint-label">Scroll to explore</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee-band">
+  <div class="marquee-track" id="marquee-track">
+    <!-- duplicated in JS for seamless loop -->
+    <div class="marquee-item">Handcrafted <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Est. 1987 <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Master Craftsmen <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Bespoke Orders <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Solid Hardwood <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">4,200 Families Served <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">100% Handmade <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Lifelong Guarantee <span class="marquee-diamond"></span></div>
+    <!-- cloned set for seamless loop -->
+    <div class="marquee-item">Handcrafted <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Est. 1987 <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Master Craftsmen <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Bespoke Orders <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Solid Hardwood <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">4,200 Families Served <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">100% Handmade <span class="marquee-diamond"></span></div>
+    <div class="marquee-item">Lifelong Guarantee <span class="marquee-diamond"></span></div>
+  </div>
+</div>
+
+<!-- ══ STORE ══ -->
+<main id="store">
+
+  <!-- Intro -->
+  <div class="store-intro">
+    <p class="eyebrow rv">Our Collection</p>
+    <div class="divider rv d1"></div>
+    <h2 class="sec-title rv d2">Handcrafted with <em>reverence</em>,<br>built to last forever.</h2>
+    <p class="sec-body rv d3" style="margin-top:1.75rem">Each piece is made entirely to order. No two are alike. From first consultation to final delivery, our master craftsmen are with you every step of the way.</p>
+  </div>
+
+  <!-- Products -->
+  <div class="products-wrap">
+    <div class="products-grid">
+
+      <div class="p-card rv">
+        <div class="p-img">
+          <a class="p-hover" href="./the-sanctum.html"><div class="p-view">View Details</div></a>
+        </div>
+        <div class="p-info">
+          <div class="p-material">Solid Iroko · Natural Finish</div>
+          <div class="p-name">The Sanctum</div>
+          <div class="p-desc">Timeless Iroko (African Teak) with hand-cut dovetail joints and brushed steel hardware. Understated perfection.</div>
+          <div class="p-foot">
+            <div class="p-price">From ₦350,000</div>
+            <a href="./the-sanctum.html#enquire" class="p-link">Enquire →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-card rv d1">
+        <div class="p-img">
+          <a class="p-hover" href="./the-mahogany-estate.html"><div class="p-view">View Details</div></a>
+        </div>
+        <div class="p-info">
+          <div class="p-material">Hand-Carved African Mahogany</div>
+          <div class="p-name">The Mahogany<br>Estate</div>
+          <div class="p-desc">Rich, deep-grained African Mahogany with hand-carved relief panels and antique brass fittings.</div>
+          <div class="p-foot">
+            <div class="p-price">From ₦500,000</div>
+            <a href="./the-mahogany-estate.html#enquire" class="p-link">Enquire →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-card rv d2">
+        <div class="p-img">
+          <a class="p-hover" href="./the-sovereign.html"><div class="p-view">View Details</div></a>
+        </div>
+        <div class="p-info">
+          <div class="p-material">Premium Sapele · Gold Hardware</div>
+          <div class="p-name">The Sovereign</div>
+          <div class="p-desc">Our flagship. Quartersawn Sapele with a ribbon-grain finish and 24-carat gold-plated hardware.</div>
+          <div class="p-foot">
+            <div class="p-price">From ₦750,000</div>
+            <a href="./the-sovereign.html#enquire" class="p-link">Enquire →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-card rv d3">
+        <div class="p-img">
+          <a class="p-hover" href="./the-renaissance.html"><div class="p-view">View Details</div></a>
+        </div>
+        <div class="p-info">
+          <div class="p-material">White Enamel · African Mahogany</div>
+          <div class="p-name">The Renaissance</div>
+          <div class="p-desc">Ivory-white hand-painted African Mahogany with silk satin interior lining and polished nickel fittings.</div>
+          <div class="p-foot">
+            <div class="p-price">From ₦600,000</div>
+            <a href="./the-renaissance.html#enquire" class="p-link">Enquire →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-card rv d4">
+        <div class="p-img">
+          <a class="p-hover" href="./the-heritage.html"><div class="p-view">View Details</div></a>
+        </div>
+        <div class="p-info">
+          <div class="p-material">Reclaimed Opepe · Rustic</div>
+          <div class="p-name">The Heritage</div>
+          <div class="p-desc">Sustainably sourced reclaimed Opepe with a hand-waxed finish and wrought iron hardware. Earthbound beauty.</div>
+          <div class="p-foot">
+            <div class="p-price">From ₦280,000</div>
+            <a href="./the-heritage.html#enquire" class="p-link">Enquire →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-card rv d5">
+        <div class="p-img">
+          <a class="p-hover" href="./the-eternal.html"><div class="p-view">View Details</div></a>
+        </div>
+        <div class="p-info">
+          <div class="p-material">Custom Engraved Afromosia</div>
+          <div class="p-name">The Eternal</div>
+          <div class="p-desc">Rare Nigerian Afromosia with bespoke hand-engraving. The rarest wood in our collection, for a truly singular life.</div>
+          <div class="p-foot">
+            <div class="p-price">From ₦900,000</div>
+            <a href="./the-eternal.html#enquire" class="p-link">Enquire →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Craftsmanship -->
+  <div class="craft-section" id="craft">
+    <div class="craft-inner">
+      <div>
+        <div class="craft-num rv">01</div>
+        <h2 class="sec-title rv d1">Three decades of<br><em>uncompromising</em><br>craftsmanship.</h2>
+        <p class="sec-body craft-body rv d2">Since 1987, our workshop has been a place where time slows down and care takes over. Every coffin that leaves our doors has been touched by hands that understand the weight of what they are making — not just in wood and metal, but in meaning.</p>
+        <div class="craft-stats">
+          <div class="rv d2">
+            <div class="stat-n">38+</div>
+            <div class="stat-l">Years in craft</div>
+          </div>
+          <div class="rv d3">
+            <div class="stat-n">4,200</div>
+            <div class="stat-l">Families served</div>
+          </div>
+          <div class="rv d3">
+            <div class="stat-n">100%</div>
+            <div class="stat-l">Handmade</div>
+          </div>
+          <div class="rv d4">
+            <div class="stat-n">6</div>
+            <div class="stat-l">Master craftsmen</div>
+          </div>
+        </div>
+      </div>
+      <div class="craft-visual rv-r">
+        <div class="craft-box">
+          <div class="craft-box-bg"></div>
+          <div class="craft-box-grain"></div>
+          <div class="craft-box-glow"></div>
+          <div class="craft-caption">
+            <div class="craft-caption-text">"Built not just for burial,<br>but for legacy."</div>
+            <div class="craft-caption-sub">— James Hartley, Founder</div>
+          </div>
+        </div>
+        <div class="craft-badge">
+          <div class="badge-n">38</div>
+          <div class="badge-t">Years of Master Craft</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Materials -->
+  <div class="materials-section" id="materials">
+    <div class="materials-inner">
+      <div style="text-align:center">
+        <p class="eyebrow rv">Nigerian Materials</p>
+        <div class="divider rv d1"></div>
+        <h2 class="sec-title rv d2">Sourced from the <em>forests</em><br>of Nigeria.</h2>
+      </div>
+      <div class="materials-grid">
+        <div class="mat-item rv">
+          <div class="mat-icon"><div class="mat-icon-inner"></div></div>
+          <div class="mat-name">Iroko (African Teak)</div>
+          <div class="mat-desc">Sourced from Nigerian forests. Exceptionally dense and durable, with a warm golden-brown tone that deepens richly with age.</div>
+        </div>
+        <div class="mat-item rv d1">
+          <div class="mat-icon"><div class="mat-icon-inner"></div></div>
+          <div class="mat-name">African Mahogany (Khaya)</div>
+          <div class="mat-desc">Grown across southern Nigeria. Deep reddish-brown with a fine, even grain — the hallmark of West African luxury woodwork.</div>
+        </div>
+        <div class="mat-item rv d2">
+          <div class="mat-icon"><div class="mat-icon-inner"></div></div>
+          <div class="mat-name">Sapele</div>
+          <div class="mat-desc">Native to Nigeria and West Africa. Quartersawn Sapele reveals a rare interlocked ribbon-grain of extraordinary, shimmering beauty.</div>
+        </div>
+        <div class="mat-item rv d3">
+          <div class="mat-icon"><div class="mat-icon-inner"></div></div>
+          <div class="mat-name">Afromosia</div>
+          <div class="mat-desc">Nigeria's rarest hardwood, known as African Rosewood. Golden-brown heartwood with a fine, uniform grain of breathtaking refinement.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Process -->
+  <div class="process-section">
+    <div class="process-inner">
+      <div style="text-align:center">
+        <p class="eyebrow rv">How We Work</p>
+        <div class="divider rv d1"></div>
+        <h2 class="sec-title rv d2">A process built on<br><em>listening</em>.</h2>
+      </div>
+      <div class="process-steps">
+        <div class="step rv">
+          <div class="step-n">01</div>
+          <div class="step-dot"></div>
+          <div class="step-title">Consultation</div>
+          <div class="step-desc">A private conversation to understand the person you loved, your wishes, and your timeline. No forms. Just people.</div>
+        </div>
+        <div class="step rv d1">
+          <div class="step-n">02</div>
+          <div class="step-dot"></div>
+          <div class="step-title">Design</div>
+          <div class="step-desc">We work with you to select materials, dimensions, hardware, and any bespoke engravings or inlays.</div>
+        </div>
+        <div class="step rv d2">
+          <div class="step-n">03</div>
+          <div class="step-dot"></div>
+          <div class="step-title">Craft</div>
+          <div class="step-desc">Our master craftsmen build your piece entirely by hand — joinery, finishing, lining — over 3 to 10 working days.</div>
+        </div>
+        <div class="step rv d3">
+          <div class="step-n">04</div>
+          <div class="step-dot"></div>
+          <div class="step-title">Delivery</div>
+          <div class="step-desc">White-glove delivery directly to your chosen funeral home or family home, wrapped and handled with total care.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="testi-section">
+    <div class="testi-inner">
+      <div style="text-align:center">
+        <p class="eyebrow rv">Families We've Served</p>
+        <div class="divider rv d1"></div>
+        <h2 class="sec-title rv d2">Words from those<br>who <em>trusted</em> us.</h2>
+      </div>
+      <div class="testi-grid">
+
+        <div class="testi-card rv">
+          <div class="testi-mark">"</div>
+          <p class="testi-text">The craftsmanship was beyond anything I had imagined. My father deserved the very best, and Eternal Craft gave us exactly that — a piece of art that honoured his dignity completely.</p>
+          <div class="testi-author">
+            <div class="testi-name">Chidinma Okafor</div>
+            <div class="testi-rel">Daughter of Chief Emmanuel Okafor</div>
+          </div>
+        </div>
+
+        <div class="testi-card rv d1">
+          <div class="testi-mark">"</div>
+          <p class="testi-text">From the first call to the final delivery, every interaction felt personal and considered. They didn't just build a coffin — they listened, they understood, and they delivered something truly beautiful.</p>
+          <div class="testi-author">
+            <div class="testi-name">Emeka &amp; Ngozi Adeyemi</div>
+            <div class="testi-rel">Parents of Tochukwu Adeyemi</div>
+          </div>
+        </div>
+
+        <div class="testi-card rv d2">
+          <div class="testi-mark">"</div>
+          <p class="testi-text">My mother was a woman of exquisite taste. The Sovereign was the only piece that felt worthy of her. Every family member was moved — not by grief alone, but by the sheer beauty of what had been made.</p>
+          <div class="testi-author">
+            <div class="testi-name">Dr. Amaka Nwosu</div>
+            <div class="testi-rel">Daughter of Mama Grace Nwosu</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom CTA -->
+  <div class="cta-section" id="custom">
+    <div class="cta-glow"></div>
+    <div class="cta-inner">
+      <p class="eyebrow rv">Bespoke Service</p>
+      <div class="divider rv d1"></div>
+      <h2 class="cta-h rv d2">A tribute<br>as <em>unique</em><br>as they were.</h2>
+      <p class="cta-p rv d3">Every person is irreplaceable. Every coffin we make should reflect that. Talk to us about a fully bespoke piece — custom dimensions, engravings, inlays, and materials sourced to your specification.</p>
+      <div class="cta-btns rv d4">
+        <a href="mailto:hello@eternalcraft.com" class="btn-gold">Begin Your Enquiry</a>
+        <a href="tel:+18005550000" class="btn-outline">Call Our Workshop</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">Eternal Craft</div>
+        <p class="foot-brand-sub">Master coffin makers since 1987. We believe the way we honour the dead reflects everything we hold true about life, love, and legacy.</p>
+      </div>
+      <div>
+        <div class="foot-col-h">Collection</div>
+        <ul class="foot-links">
+          <li><a href="#store">The Sanctum</a></li>
+          <li><a href="#store">The Mahogany Estate</a></li>
+          <li><a href="#store">The Sovereign</a></li>
+          <li><a href="#store">The Renaissance</a></li>
+          <li><a href="#store">The Heritage</a></li>
+          <li><a href="#store">The Eternal</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-col-h">Company</div>
+        <ul class="foot-links">
+          <li><a href="#craft">Our Story</a></li>
+          <li><a href="#craft">Craftsmanship</a></li>
+          <li><a href="#materials">Materials</a></li>
+          <li><a href="#custom">Bespoke Orders</a></li>
+          <li><a href="#custom">Funeral Directors</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-col-h">Contact</div>
+        <ul class="foot-links">
+          <li><a href="mailto:hello@eternalcraft.com">hello@eternalcraft.com</a></li>
+          <li><a href="tel:+18005550000">+1 800 555 0000</a></li>
+          <li><a href="#custom">Visit Our Workshop</a></li>
+          <li><a href="#custom">For Funeral Directors</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="foot-copy">© 2026 <span>Eternal Craft</span>. All rights reserved. Crafted with devotion.</p>
+      <p class="foot-copy">Privacy &nbsp;·&nbsp; Terms &nbsp;·&nbsp; Accessibility</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ═══════════════════════════════════════
+  // LOADER
+  // ═══════════════════════════════════════
+  // ═══════════════════════════════════════
+  // CANVAS FRAME ENGINE — lag-free scroll
+  // ═══════════════════════════════════════
+  const loader  = document.getElementById('loader');
+  const lf      = document.getElementById('lf');
+  const lp      = document.getElementById('lp');
+  const ls      = document.getElementById('ls');
+  const canvas  = document.getElementById('hero-canvas');
+  const ctx     = canvas.getContext('2d', { alpha: false });
+  const wrap    = document.getElementById('scroll-wrap');
+  const line    = document.getElementById('scroll-line');
+  const hint    = document.getElementById('scroll-hint');
+  const nav     = document.getElementById('nav');
+
+  let frames        = [];
+  let frameWidth    = 1;
+  let frameHeight   = 1;
+  let lastDrawn     = -1;
+  let videoDuration = 0;
+
+  // ── Size canvas to fill viewport ──
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    if (frames.length > 0) redraw();
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // ── Draw one ImageBitmap with cover-fit (GPU blit — near zero cost) ──
+  function redraw() {
+    const i   = Math.max(0, Math.min(lastDrawn < 0 ? 0 : lastDrawn, frames.length - 1));
+    const bmp = frames[i];
+    if (!bmp) return;
+    const cw = canvas.width, ch = canvas.height;
+    const fw = frameWidth,   fh = frameHeight;
+    const scale = Math.max(cw / fw, ch / fh);
+    ctx.drawImage(bmp, (cw - fw * scale) / 2, (ch - fh * scale) / 2, fw * scale, fh * scale);
+  }
+
+  function drawFrame(index) {
+    const i = Math.max(0, Math.min(index, frames.length - 1));
+    if (lastDrawn === i) return;
+    lastDrawn = i;
+    const bmp = frames[i];
+    if (!bmp) return;
+    const cw = canvas.width, ch = canvas.height;
+    const fw = frameWidth,   fh = frameHeight;
+    const scale = Math.max(cw / fw, ch / fh);
+    ctx.drawImage(bmp, (cw - fw * scale) / 2, (ch - fh * scale) / 2, fw * scale, fh * scale);
+  }
+
+  // ── Loader progress ──
+  function setProgress(pct, label) {
+    lf.style.width = pct + '%';
+    lp.textContent = Math.floor(pct) + '%';
+    if (label) ls.textContent = label;
+  }
+
+  // ── Frame extraction ──
+  // Seeks the video to each frame time, captures to canvas, stores as ImageBitmap.
+  // ImageBitmap is GPU-resident — drawImage() is essentially free at scroll time.
+  const TARGET_FPS = 30;
+
+  async function extractFrames() {
+    setProgress(0, 'Loading video…');
+
+    const vid = document.createElement('video');
+    vid.src         = './3dvideo/3Dvideo.mp4';
+    vid.muted       = true;
+    vid.preload     = 'auto';
+    vid.playsInline = true;
+
+    await new Promise((res, rej) => {
+      vid.addEventListener('loadedmetadata', res, { once: true });
+      vid.addEventListener('error', rej, { once: true });
+      vid.load();
+    });
+
+    videoDuration = vid.duration;
+    frameWidth    = vid.videoWidth;
+    frameHeight   = vid.videoHeight;
+    applyScrollHeight();
+
+    const off  = document.createElement('canvas');
+    off.width  = frameWidth;
+    off.height = frameHeight;
+    const octx = off.getContext('2d');
+
+    const total = Math.round(vid.duration * TARGET_FPS);
+    setProgress(0, 'Extracting frames…');
+
+    for (let i = 0; i <= total; i++) {
+      vid.currentTime = (i / total) * vid.duration;
+      await new Promise(r => vid.addEventListener('seeked', r, { once: true }));
+      octx.drawImage(vid, 0, 0);
+      frames.push(await createImageBitmap(off));
+      if (i === 0) drawFrame(0); // show first frame immediately
+      const pct = Math.round((i / total) * 100);
+      setProgress(pct, `Extracting frames — ${pct}%`);
+    }
+
+    setProgress(100, 'Ready');
+    setTimeout(() => loader.classList.add('out'), 450);
+  }
+
+  function applyScrollHeight() {
+    const extra = Math.max(window.innerHeight * 5, videoDuration * 350);
+    wrap.style.height = (window.innerHeight + extra) + 'px';
+  }
+
+  // ── Phase text overlays ──
+  const phases = [
+    { el: document.getElementById('ph1'),                         outS: 0.20, outE: 0.32 },
+    { el: document.getElementById('ph2'), inS: 0.24, inE: 0.38,  outS: 0.48, outE: 0.58 },
+    { el: document.getElementById('ph3'), inS: 0.50, inE: 0.63,  outS: 0.72, outE: 0.82 },
+    { el: document.getElementById('ph4'), inS: 0.76, inE: 0.88 },
+  ];
+
+  // ── Main scroll tick ──
+  function tick() {
+    const wrapTop    = wrap.getBoundingClientRect().top + window.scrollY;
+    const scrollable = wrap.offsetHeight - window.innerHeight;
+    const scrolled   = Math.max(0, window.scrollY - wrapTop);
+    const progress   = scrollable > 0 ? Math.min(1, scrolled / scrollable) : 0;
+
+    if (frames.length > 0) {
+      drawFrame(Math.round(progress * (frames.length - 1)));
+    }
+
+    line.style.width   = (progress * 100) + '%';
+    hint.style.opacity = progress < 0.04 ? '1' : '0';
+
+    phases.forEach(({ el, inS, inE, outS, outE }) => {
+      let o = 1;
+      if (inS !== undefined) {
+        o = progress < inS ? 0 : progress < inE ? (progress - inS) / (inE - inS) : 1;
+      }
+      if (outS !== undefined && progress > outS) {
+        const fade = progress > outE ? 0 : 1 - (progress - outS) / (outE - outS);
+        o = Math.min(o, fade);
+      }
+      el.style.opacity = o;
+    });
+
+    nav.classList.toggle('solid', window.scrollY > 80);
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => { tick(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  tick();
+
+  // ── IntersectionObserver reveal ──
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.rv, .rv-l, .rv-r').forEach(el => io.observe(el));
+
+  // ── Start ──
+  extractFrames().catch(err => {
+    console.error('Frame extraction error:', err);
+    loader.classList.add('out');
+  });
+</script>
+</body>
+</html>

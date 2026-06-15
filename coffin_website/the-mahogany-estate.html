@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Mahogany Estate — Eternal Craft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #07070a; --surface: #101014; --surface2: #18181e; --border: #222228;
+      --gold: #c8a96e; --gold-light: #dfc07a; --gold-dim: #7a6438;
+      --white: #f5f0eb; --text: #e2ddd5; --text2: #9a9490; --text3: #585450;
+      --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif;
+      --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --wood1: #7a1c0e; --wood2: #a83c20; --wood3: #9a2c18;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    ::selection { background: rgba(200,169,110,0.25); color: var(--white); }
+    ::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); }
+
+    #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 1.8rem 4rem; display: flex; align-items: center; justify-content: space-between; transition: background 0.5s, backdrop-filter 0.5s, border-color 0.5s; border-bottom: 1px solid transparent; }
+    #nav.solid { background: rgba(7,7,10,0.9); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-color: var(--border); }
+    .nav-logo { font-family: var(--serif); font-size: 1.25rem; font-weight: 300; letter-spacing: 0.3em; color: var(--white); text-decoration: none; text-transform: uppercase; display: flex; align-items: center; gap: 0.65rem; }
+    .nav-gem { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 2.8rem; }
+    .nav-links a { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text2); text-decoration: none; font-weight: 400; position: relative; transition: color 0.3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.35s var(--ease); }
+    .nav-links a:hover { color: var(--white); } .nav-links a:hover::after { width: 100%; }
+    .nav-enquire { font-size: 0.65rem !important; color: var(--gold) !important; border: 1px solid var(--gold-dim); padding: 0.55rem 1.3rem; transition: background 0.3s !important; }
+    .nav-enquire:hover { background: var(--gold) !important; color: var(--bg) !important; } .nav-enquire::after { display: none !important; }
+
+    .p-hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+    .p-hero-left { background: var(--surface); display: flex; align-items: center; justify-content: center; padding: 8rem 4rem; position: relative; }
+    .p-hero-left::after { content: ''; position: absolute; right: 0; top: 15%; bottom: 15%; width: 1px; background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent); }
+    .p-hero-right { display: flex; flex-direction: column; justify-content: center; padding: 8rem 5rem; }
+    .back-link { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text3); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 3rem; transition: color 0.3s; }
+    .back-link:hover { color: var(--gold); }
+    .eyebrow { font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+    .divider { width: 50px; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 1.6rem 0; }
+    .p-hero-name { font-family: var(--serif); font-size: clamp(3rem, 5.5vw, 6rem); font-weight: 300; color: var(--white); line-height: 1.05; }
+    .p-hero-name em { font-style: italic; color: var(--gold-light); }
+    .p-hero-material { font-size: 0.75rem; letter-spacing: 0.2em; color: var(--text2); text-transform: uppercase; margin-top: 1.2rem; }
+    .p-hero-price { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; color: var(--white); margin: 2rem 0 2.5rem; }
+    .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-gold { display: inline-block; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 500; color: var(--bg); background: var(--gold); text-decoration: none; padding: 1.05rem 2.5rem; transition: background 0.3s; cursor: pointer; border: none; font-family: var(--sans); }
+    .btn-gold:hover { background: var(--gold-light); }
+    .btn-ghost { display: inline-block; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 500; color: var(--gold); border: 1px solid var(--gold-dim); text-decoration: none; padding: 1.05rem 2.5rem; transition: background 0.3s; }
+    .btn-ghost:hover { background: rgba(200,169,110,0.08); }
+    .hero-number { position: absolute; right: 3rem; bottom: 3rem; font-family: var(--serif); font-size: 8rem; color: rgba(255,255,255,0.03); font-weight: 300; user-select: none; line-height: 1; }
+
+    .coffin-art { position: relative; width: 240px; height: 360px; margin: 0 auto; animation: float 7s ease-in-out infinite; filter: drop-shadow(0 40px 70px rgba(0,0,0,0.7)); }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    .coffin-shadow { position: absolute; bottom: -28px; left: 10%; right: 10%; height: 20px; background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.55) 0%, transparent 70%); filter: blur(10px); animation: shd 7s ease-in-out infinite; }
+    @keyframes shd { 0%, 100% { opacity: 0.6; transform: scaleX(1); } 50% { opacity: 0.3; transform: scaleX(0.8); } }
+    .coffin-body { position: absolute; inset: 0; clip-path: polygon(22% 0%, 78% 0%, 100% 14%, 100% 86%, 78% 100%, 22% 100%, 0% 86%, 0% 14%); background: linear-gradient(160deg, var(--wood1) 0%, var(--wood3) 35%, var(--wood2) 50%, var(--wood3) 65%, var(--wood1) 100%); overflow: hidden; }
+    .coffin-grain { position: absolute; inset: 0; background-image: repeating-linear-gradient(89deg, transparent, transparent 4px, rgba(255,255,255,0.04) 4px, rgba(255,255,255,0.04) 7px); }
+    .coffin-seam { position: absolute; left: 8%; right: 8%; top: 22%; height: 1px; background: rgba(0,0,0,0.3); box-shadow: 0 1px 0 rgba(255,255,255,0.07); }
+    .coffin-depth { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.25) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.25) 100%), linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 12%, transparent 88%, rgba(0,0,0,0.3) 100%); }
+    /* Carved panel lines */
+    .coffin-panel { position: absolute; left: 15%; right: 15%; top: 26%; bottom: 8%; border: 1px solid rgba(255,255,255,0.06); }
+    .coffin-panel::before { content: ''; position: absolute; left: 12%; right: 12%; top: 10%; bottom: 10%; border: 1px solid rgba(255,255,255,0.04); }
+    .coffin-cross { position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%); }
+    .coffin-cross::before { content: ''; position: absolute; left: 50%; top: -22px; transform: translateX(-50%); width: 1.5px; height: 44px; background: rgba(200,169,110,0.3); }
+    .coffin-cross::after { content: ''; position: absolute; left: -13px; top: -1px; width: 27px; height: 1.5px; background: rgba(200,169,110,0.3); }
+    .coffin-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 85%, rgba(200,169,110,0.06) 0%, transparent 60%); }
+
+    .p-overview { padding: 8rem 4rem; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 7rem; align-items: start; }
+    .sec-title { font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 300; color: var(--white); line-height: 1.1; }
+    .sec-title em { font-style: italic; color: var(--gold-light); }
+    .sec-body { font-size: 0.95rem; line-height: 1.9; color: var(--text2); margin-top: 1.4rem; }
+    .spec-box { margin-top: 3rem; border: 1px solid var(--border); }
+    .spec-row { display: flex; align-items: stretch; border-bottom: 1px solid var(--border); }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); padding: 0.9rem 1.2rem; width: 40%; border-right: 1px solid var(--border); display: flex; align-items: center; }
+    .spec-value { font-family: var(--serif); font-size: 1rem; color: var(--white); padding: 0.9rem 1.2rem; display: flex; align-items: center; font-weight: 300; }
+    .overview-cta { margin-top: 2.5rem; }
+    .overview-price { font-family: var(--serif); font-size: 2rem; color: var(--white); margin-bottom: 1.5rem; }
+
+    .p-features { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6rem 4rem; }
+    .features-inner { max-width: 1200px; margin: 0 auto; }
+    .features-header { text-align: center; margin-bottom: 4rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); }
+    .feat-item { padding: 2.5rem 2rem; border-right: 1px solid var(--border); transition: background 0.3s; }
+    .feat-item:last-child { border-right: none; }
+    .feat-item:hover { background: var(--surface2); }
+    .feat-icon { width: 36px; height: 36px; border: 1px solid var(--gold-dim); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+    .feat-icon-inner { width: 12px; height: 12px; background: var(--gold); opacity: 0.55; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+    .feat-title { font-family: var(--serif); font-size: 1.15rem; color: var(--white); font-weight: 400; margin-bottom: 0.6rem; }
+    .feat-desc { font-size: 0.78rem; color: var(--text3); line-height: 1.7; }
+
+    .p-material-spot { padding: 8rem 4rem; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+    .mat-visual { aspect-ratio: 3/4; background: var(--surface); border: 1px solid var(--border); position: relative; overflow: hidden; }
+    .mat-visual-bg { position: absolute; inset: 0; background: linear-gradient(155deg, var(--wood1) 0%, var(--wood3) 45%, var(--wood1) 100%); }
+    .mat-visual-grain { position: absolute; inset: 0; opacity: 0.2; background-image: repeating-linear-gradient(88deg, transparent, transparent 3px, rgba(255,255,255,0.06) 3px, rgba(255,255,255,0.06) 5px); }
+    .mat-visual-label { position: absolute; bottom: 2rem; left: 2rem; right: 2rem; }
+    .mat-visual-tag { font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.4rem; }
+    .mat-visual-name { font-family: var(--serif); font-size: 1.4rem; color: var(--white); font-style: italic; }
+    .mat-facts { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; }
+    .mat-fact { padding: 0.5rem 1rem; border: 1px solid var(--border); }
+    .mat-fact-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); }
+    .mat-fact-value { font-size: 0.78rem; color: var(--white); margin-top: 0.2rem; }
+
+    .p-dims { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6rem 4rem; text-align: center; }
+    .p-dims-inner { max-width: 900px; margin: 0 auto; }
+    .dims-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--border); margin: 3rem 0 1.5rem; }
+    .dim-item { padding: 2rem 1rem; border-right: 1px solid var(--border); }
+    .dim-item:last-child { border-right: none; }
+    .dim-val { font-family: var(--serif); font-size: 1.8rem; color: var(--gold); font-weight: 300; }
+    .dim-label { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); margin-top: 0.4rem; }
+    .dims-note { font-size: 0.78rem; color: var(--text3); }
+
+    .p-enquiry { padding: 8rem 4rem; }
+    .enquiry-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.3fr; gap: 7rem; align-items: start; }
+    .contact-info { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+    .contact-line { font-size: 0.8rem; color: var(--text3); }
+    .contact-line a { color: var(--gold); text-decoration: none; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group input, .form-group textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--white); padding: 0.9rem 1rem; font-family: var(--sans); font-size: 0.85rem; font-weight: 300; outline: none; transition: border-color 0.3s; resize: none; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--gold-dim); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text3); }
+    .form-success { display: none; text-align: center; padding: 4rem 2rem; border: 1px solid var(--gold-dim); }
+    .success-check { font-family: var(--serif); font-size: 3rem; color: var(--gold); margin-bottom: 1rem; }
+    .success-h { font-family: var(--serif); font-size: 1.8rem; color: var(--white); font-weight: 300; margin-bottom: 0.75rem; }
+    .success-p { font-size: 0.85rem; color: var(--text2); }
+
+    .p-related { background: var(--surface); border-top: 1px solid var(--border); padding: 7rem 4rem; }
+    .p-related-inner { max-width: 1200px; margin: 0 auto; }
+    .related-header { text-align: center; margin-bottom: 4rem; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .rel-card { background: var(--bg); overflow: hidden; cursor: pointer; text-decoration: none; display: block; }
+    .rel-img { width: 100%; aspect-ratio: 4/3; position: relative; overflow: hidden; }
+    .rel-img::before { content: ''; position: absolute; inset: 0; opacity: 0.12; background-image: repeating-linear-gradient(88deg, transparent, transparent 3px, rgba(255,255,255,0.04) 3px, rgba(255,255,255,0.04) 6px); z-index: 1; }
+    .rel-img::after { content: ''; position: absolute; left: 50%; top: 52%; transform: translate(-50%,-50%); width: 40%; height: 65%; border: 1px solid rgba(200,169,110,0.12); clip-path: polygon(22% 0%,78% 0%,100% 14%,100% 86%,78% 100%,22% 100%,0% 86%,0% 14%); z-index: 1; }
+    .rel-info { padding: 1.4rem 1.5rem 1.6rem; border-top: 1px solid var(--border); transition: background 0.3s; }
+    .rel-card:hover .rel-info { background: var(--surface2); }
+    .rel-material { font-size: 0.55rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 0.35rem; }
+    .rel-name { font-family: var(--serif); font-size: 1.25rem; color: var(--white); }
+    .rel-price { font-size: 0.8rem; color: var(--text2); margin-top: 0.4rem; }
+
+    footer { background: #040407; border-top: 1px solid var(--border); padding: 5rem 4rem 2.5rem; }
+    .foot-inner { max-width: 1400px; margin: 0 auto; }
+    .foot-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--border); }
+    .foot-brand { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; letter-spacing: 0.25em; color: var(--white); text-transform: uppercase; }
+    .foot-brand-sub { font-size: 0.8rem; color: var(--text3); line-height: 1.8; margin-top: 0.9rem; max-width: 280px; }
+    .foot-col-h { font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 1.4rem; }
+    .foot-links { list-style: none; }
+    .foot-links li { margin-bottom: 0.65rem; }
+    .foot-links a { font-size: 0.8rem; color: var(--text3); text-decoration: none; transition: color 0.3s; }
+    .foot-links a:hover { color: var(--white); }
+    .foot-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 2rem; flex-wrap: wrap; gap: 0.75rem; }
+    .foot-copy { font-size: 0.7rem; color: var(--text3); }
+    .foot-copy span { color: var(--gold); }
+
+    .rv { opacity: 0; transform: translateY(26px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease); }
+    .rv-l { opacity: 0; transform: translateX(-32px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease); }
+    .rv-r { opacity: 0; transform: translateX(32px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease); }
+    .rv.vis, .rv-l.vis, .rv-r.vis { opacity: 1; transform: translate(0); }
+    .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
+
+    @media (max-width: 1024px) {
+      .p-hero { grid-template-columns: 1fr; } .p-hero-left { padding: 6rem 2rem 3rem; } .p-hero-left::after { display: none; } .p-hero-right { padding: 3rem 2rem 5rem; }
+      .p-overview { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; } .p-material-spot { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
+      .enquiry-inner { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; } .features-grid { grid-template-columns: 1fr 1fr; } .dims-grid { grid-template-columns: repeat(3,1fr); }
+      .foot-top { grid-template-columns: 1fr 1fr; } .related-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) { #nav { padding: 1.4rem 1.5rem; } .nav-links li:nth-child(1),.nav-links li:nth-child(2),.nav-links li:nth-child(3) { display: none; } .p-features,.p-dims,.p-related,footer { padding-left: 1.5rem; padding-right: 1.5rem; } .form-row { grid-template-columns: 1fr; } .foot-top { grid-template-columns: 1fr; gap: 2rem; } }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="./index.html" class="nav-logo"><span class="nav-gem"></span>Eternal Craft</a>
+  <ul class="nav-links">
+    <li><a href="./index.html#store">Collection</a></li>
+    <li><a href="./index.html#craft">Craft</a></li>
+    <li><a href="./index.html#materials">Materials</a></li>
+    <li><a href="#enquire" class="nav-enquire">Enquire</a></li>
+  </ul>
+</nav>
+
+<section class="p-hero">
+  <div class="p-hero-left">
+    <div class="coffin-art">
+      <div class="coffin-shadow"></div>
+      <div class="coffin-body">
+        <div class="coffin-grain"></div>
+        <div class="coffin-seam"></div>
+        <div class="coffin-depth"></div>
+        <div class="coffin-panel"></div>
+        <div class="coffin-cross"></div>
+        <div class="coffin-glow"></div>
+      </div>
+    </div>
+    <div class="hero-number">02</div>
+  </div>
+  <div class="p-hero-right">
+    <a href="./index.html#store" class="back-link">← Back to Collection</a>
+    <p class="eyebrow">Hand-Carved African Mahogany</p>
+    <div class="divider"></div>
+    <h1 class="p-hero-name">The Mahogany<br><em>Estate</em></h1>
+    <p class="p-hero-material">Khaya · Antique Brass · Hand-Carved Relief</p>
+    <div class="p-hero-price">From ₦500,000</div>
+    <div class="btn-row">
+      <a href="#enquire" class="btn-gold">Begin Enquiry</a>
+      <a href="#overview" class="btn-ghost">See Details</a>
+    </div>
+  </div>
+</section>
+
+<section id="overview">
+  <div class="p-overview">
+    <div class="rv-l">
+      <p class="eyebrow">02. The Mahogany Estate</p>
+      <div class="divider"></div>
+      <h2 class="sec-title">Carved by hand.<br>Born from <em>Khaya</em>.</h2>
+      <p class="sec-body">The Mahogany Estate draws deeply from West Africa's tradition of masterful wood carving. Every side panel bears hand-carved floral and geometric reliefs, each one unique to the piece — the work of craftsmen who have spent decades perfecting their touch on African Mahogany (Khaya).</p>
+      <p class="sec-body" style="margin-top:1rem">Khaya's deep reddish-brown grain provides the perfect canvas for this intricate relief work. The wood accepts the carving tool the way great canvas accepts paint — with a responsiveness that reveals its own character at every cut. Finished with antique brass hardware that ages as elegantly as the wood itself.</p>
+    </div>
+    <div class="rv-r">
+      <div class="spec-box">
+        <div class="spec-row"><div class="spec-label">Material</div><div class="spec-value">African Mahogany (Khaya)</div></div>
+        <div class="spec-row"><div class="spec-label">Finish</div><div class="spec-value">Danish Oil, Hand-Rubbed</div></div>
+        <div class="spec-row"><div class="spec-label">Hardware</div><div class="spec-value">Antique Brass — Set of 6</div></div>
+        <div class="spec-row"><div class="spec-label">Interior</div><div class="spec-value">Pleated Ivory Silk</div></div>
+        <div class="spec-row"><div class="spec-label">Carving</div><div class="spec-value">Hand-Cut Relief, All Panels</div></div>
+        <div class="spec-row"><div class="spec-label">Lead Time</div><div class="spec-value">5 – 8 working days</div></div>
+      </div>
+      <div class="overview-cta">
+        <div class="overview-price">From ₦500,000</div>
+        <a href="#enquire" class="btn-gold">Begin Enquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="p-features">
+  <div class="features-inner">
+    <div class="features-header">
+      <p class="eyebrow rv">What's Included</p>
+      <div class="divider rv d1" style="margin:1.6rem auto"></div>
+      <h2 class="sec-title rv d2" style="font-size:2rem">Every detail, considered.</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feat-item rv"><div class="feat-icon"><div class="feat-icon-inner"></div></div><div class="feat-title">Hand-Carved Panels</div><div class="feat-desc">Each of the four side panels is hand-carved with unique floral and geometric motifs. No two Estates are identical.</div></div>
+      <div class="feat-item rv d1"><div class="feat-icon"><div class="feat-icon-inner"></div></div><div class="feat-title">Antique Brass Hardware</div><div class="feat-desc">Six individually cast brass handles with a hand-applied antique finish. Designed to develop character over time.</div></div>
+      <div class="feat-item rv d2"><div class="feat-icon"><div class="feat-icon-inner"></div></div><div class="feat-title">Pleated Ivory Silk Interior</div><div class="feat-desc">The interior is hand-pleated with heavy-weight ivory silk and fitted with a hand-stitched pillow headrest.</div></div>
+      <div class="feat-item rv d3"><div class="feat-icon"><div class="feat-icon-inner"></div></div><div class="feat-title">Carved Lid Motif</div><div class="feat-desc">The lid panel carries a bespoke central carving — a cross, family crest, or custom motif — included at no additional cost.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="p-material-spot">
+  <div class="mat-visual rv-l">
+    <div class="mat-visual-bg"></div>
+    <div class="mat-visual-grain"></div>
+    <div class="mat-visual-label">
+      <span class="mat-visual-tag">Nigerian Hardwood</span>
+      <span class="mat-visual-name">African Mahogany — Khaya</span>
+    </div>
+  </div>
+  <div class="rv-r">
+    <p class="eyebrow">The Wood</p>
+    <div class="divider"></div>
+    <h2 class="sec-title">African Mahogany —<br><em>the wood of kings</em>.</h2>
+    <p class="sec-body">African Mahogany (Khaya senegalensis) grows throughout Nigeria's south-western states and has been used in high-end joinery, furniture, and carving for well over a century. Its straight, fine grain accepts hand-carving with an openness that makes it the preferred timber for relief work across West Africa.</p>
+    <p class="sec-body" style="margin-top:0.9rem">The heartwood's deep reddish-brown hue is one of the most immediately recognisable signatures of quality in Nigerian craftsmanship. It darkens beautifully with age and responds to oil finishes with extraordinary warmth.</p>
+    <div class="mat-facts">
+      <div class="mat-fact"><div class="mat-fact-label">Origin</div><div class="mat-fact-value">South-West Nigeria</div></div>
+      <div class="mat-fact"><div class="mat-fact-label">Janka Hardness</div><div class="mat-fact-value">1,070 lbf</div></div>
+      <div class="mat-fact"><div class="mat-fact-label">Grain</div><div class="mat-fact-value">Straight, Fine</div></div>
+      <div class="mat-fact"><div class="mat-fact-label">Tone</div><div class="mat-fact-value">Deep Reddish-Brown</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="p-dims">
+  <div class="p-dims-inner">
+    <p class="eyebrow rv">Standard Dimensions</p>
+    <div class="divider rv d1" style="margin:1.6rem auto"></div>
+    <h2 class="sec-title rv d2" style="font-size:2rem">Built to <em>standard</em>,<br>adjusted to need.</h2>
+    <div class="dims-grid rv d3">
+      <div class="dim-item"><div class="dim-val">213 cm</div><div class="dim-label">External Length</div></div>
+      <div class="dim-item"><div class="dim-val">64 cm</div><div class="dim-label">External Width</div></div>
+      <div class="dim-item"><div class="dim-val">42 cm</div><div class="dim-label">External Depth</div></div>
+      <div class="dim-item"><div class="dim-val">196 cm</div><div class="dim-label">Internal Length</div></div>
+      <div class="dim-item"><div class="dim-val">~90 kg</div><div class="dim-label">Approx. Weight</div></div>
+    </div>
+    <p class="dims-note rv d4">Custom carving designs and dimensions are available. Please share your ideas in the enquiry form.</p>
+  </div>
+</div>
+
+<section id="enquire" class="p-enquiry">
+  <div class="enquiry-inner">
+    <div class="rv-l">
+      <p class="eyebrow">Begin Your Enquiry</p>
+      <div class="divider"></div>
+      <h2 class="sec-title">Let's create<br><em>your piece</em>.</h2>
+      <p class="sec-body" style="margin-top:1.2rem">Every Mahogany Estate is uniquely carved. Share your vision — a family crest, a motif, a scripture — and our carvers will bring it to life.</p>
+      <div class="contact-info">
+        <div class="contact-line">Phone: <a href="tel:+2348005550000">+234 800 555 0000</a></div>
+        <div class="contact-line">Email: <a href="mailto:hello@eternalcraft.com">hello@eternalcraft.com</a></div>
+      </div>
+    </div>
+    <div class="rv-r">
+      <form id="eq-form">
+        <div class="form-row">
+          <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name" required></div>
+          <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com" required></div>
+        </div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+234 ..."></div>
+        <div class="form-group"><label>Carving Design / Requirements</label><textarea rows="5" placeholder="Describe any specific carving designs, motifs, scriptures, or special requirements..."></textarea></div>
+        <button type="submit" class="btn-gold">Send Enquiry</button>
+      </form>
+      <div class="form-success" id="form-success">
+        <div class="success-check">✦</div>
+        <div class="success-h">Enquiry Received</div>
+        <p class="success-p">Thank you. Our craftsmen will be in touch within 24 hours to discuss your piece.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="p-related">
+  <div class="p-related-inner">
+    <div class="related-header">
+      <p class="eyebrow rv">Also in the Collection</p>
+      <div class="divider rv d1" style="margin:1.6rem auto"></div>
+      <h2 class="sec-title rv d2" style="font-size:2rem">Explore <em>more</em>.</h2>
+    </div>
+    <div class="related-grid">
+      <a class="rel-card rv" href="./the-sanctum.html"><div class="rel-img" style="background:linear-gradient(140deg,#1c1408 0%,#2e2010 100%)"></div><div class="rel-info"><div class="rel-material">Solid Iroko · Natural Finish</div><div class="rel-name">The Sanctum</div><div class="rel-price">From ₦350,000</div></div></a>
+      <a class="rel-card rv d1" href="./the-renaissance.html"><div class="rel-img" style="background:linear-gradient(140deg,#1a1820 0%,#2a2030 100%)"></div><div class="rel-info"><div class="rel-material">White Enamel · African Mahogany</div><div class="rel-name">The Renaissance</div><div class="rel-price">From ₦600,000</div></div></a>
+      <a class="rel-card rv d2" href="./the-sovereign.html"><div class="rel-img" style="background:linear-gradient(140deg,#180e06 0%,#2a1a0a 100%)"></div><div class="rel-info"><div class="rel-material">Premium Sapele · Gold Hardware</div><div class="rel-name">The Sovereign</div><div class="rel-price">From ₦750,000</div></div></a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div><div class="foot-brand">Eternal Craft</div><p class="foot-brand-sub">Master coffin makers since 1987. We believe the way we honour the dead reflects everything we hold true about life, love, and legacy.</p></div>
+      <div><div class="foot-col-h">Collection</div><ul class="foot-links"><li><a href="./the-sanctum.html">The Sanctum</a></li><li><a href="./the-mahogany-estate.html">The Mahogany Estate</a></li><li><a href="./the-sovereign.html">The Sovereign</a></li><li><a href="./the-renaissance.html">The Renaissance</a></li><li><a href="./the-heritage.html">The Heritage</a></li><li><a href="./the-eternal.html">The Eternal</a></li></ul></div>
+      <div><div class="foot-col-h">Company</div><ul class="foot-links"><li><a href="./index.html#craft">Our Story</a></li><li><a href="./index.html#craft">Craftsmanship</a></li><li><a href="./index.html#materials">Nigerian Materials</a></li><li><a href="./index.html#custom">Bespoke Orders</a></li></ul></div>
+      <div><div class="foot-col-h">Contact</div><ul class="foot-links"><li><a href="mailto:hello@eternalcraft.com">hello@eternalcraft.com</a></li><li><a href="tel:+2348005550000">+234 800 555 0000</a></li><li><a href="./index.html#custom">Visit Our Workshop</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><p class="foot-copy">© 2026 <span>Eternal Craft</span>. All rights reserved.</p><p class="foot-copy">Privacy · Terms · Accessibility</p></div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('solid', window.scrollY > 60), { passive: true });
+  const io = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv, .rv-l, .rv-r').forEach(el => io.observe(el));
+  document.getElementById('eq-form').addEventListener('submit', function(e) { e.preventDefault(); this.style.display = 'none'; document.getElementById('form-success').style.display = 'block'; });
+</script>
+</body>
+</html>
